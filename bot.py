@@ -73,8 +73,8 @@ def format_message(news_item):
     description = news_item['description']
     tag = news_item['tag']
     summary = news_item['summary']
-    # url = news_item['url']
-    url = 'sdfsefsef'
+    url = news_item['url']
+    # url = 'sdfsefsef'
 
     return (
 
