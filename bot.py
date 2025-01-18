@@ -92,8 +92,8 @@ def post_news_to_group(group_key, news_items):
     for news_item in news_items:
         formatted_message = format_message(news_item)
         translated_message = translate_text(formatted_message, "fa")
-        print(translated_message.text)
-        bot.send_message(group_id, formatted_message, parse_mode='Markdown')
+        print(translated_message)
+        bot.send_message(group_id, translated_message, parse_mode='Markdown')
 
 # Command to get group IDs
 @bot.message_handler(commands=['get_groups'])
