@@ -9,7 +9,7 @@ def scrape_news_topic_1():
     response = requests.get(url ,  headers= headers)
     soup = BeautifulSoup(response.text, 'html.parser')
     articles = soup.find_all("div", class_="article-list__item-wrapper")
-    title =  articles[0].find('h3' , 'article-slot__title').text.strip()
+    title =  articles[0].find('h3' , 'article-slot__title')
     link = title.find("a")["href"]
     article_url = link if link.startswith("http") else url + link
     response = requests.get(article_url ,  headers= headers)
@@ -19,7 +19,7 @@ def scrape_news_topic_1():
 
     
     # title = soup.find("h3", class_="article-slot__title").text.strip()
-    print(title)
+    print(title.text.strip())
     description = soup.find("article", class_='article__content-body').find_all("p")[0].text.strip()
     # author = soup.find("span", class_="auth-name").text.strip()
     # publish_date = soup.find("div", class_="publisher-details__date").text.strip()
@@ -41,7 +41,7 @@ def scrape_news_topic_1():
     summary = "Ahhhhhhhh....."
 
     news.append({
-        "title": title,
+        "title": title.text.strip(),
         "description": description,
         "link": link,
         "tag": tag,
