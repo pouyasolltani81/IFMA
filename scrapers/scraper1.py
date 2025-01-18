@@ -9,8 +9,8 @@ def scrape_news_topic_1():
     response = requests.get(url ,  headers= headers)
     soup = BeautifulSoup(response.text, 'html.parser')
     articles = soup.find_all("div", class_="article-list__item-wrapper")
-    title =  title.find('h3' , 'article-slot__title')
-    link = articles[0].find("a")["href"]
+    title =  articles[0].find('h3' , 'article-slot__title')
+    link = title.find("a")["href"]
     article_url = link if link.startswith("http") else url + link
     response = requests.get(article_url ,  headers= headers)
     soup = BeautifulSoup(response.text, 'html.parser')
