@@ -61,6 +61,7 @@ def format_message(news_item):
     url = 'sdfsefsef'
 
     return (
+
         f"📢 *{title}*\n\n"
         f"📝 {description}\n\n"
         f"🏷️ Tag: {tag}\n\n"
@@ -74,8 +75,9 @@ def post_news_to_group(group_key, news_items):
     group_id = group['id']
     for news_item in news_items:
         formatted_message = format_message(news_item)
-        translated_message = translator.translate(formatted_message, src='auto', dest='fa').text
-        bot.send_message(group_id, translated_message, parse_mode='Markdown')
+        translated_message = translator.translate(formatted_message, src='auto', dest='fa')
+        print(translated_message)
+        bot.send_message(group_id, formatted_message, parse_mode='Markdown')
 
 # Command to get group IDs
 @bot.message_handler(commands=['get_groups'])
