@@ -94,10 +94,14 @@ def job_group_2():
 # Schedule jobs
 # schedule.every(1).hour.do(job_group_1)  # Every hour
 schedule.every(5).minutes.do(job_group_1) 
+schedule.every(5).seconds.do(job_group_1) 
+
 
 # Run the scheduler in a separate thread
 def run_scheduler():
+    print('Scheduler runner is getting started')
     while True:
+        print('Scheduler runner started')
         schedule.run_pending()
         time.sleep(1)
 
