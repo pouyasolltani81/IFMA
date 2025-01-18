@@ -20,7 +20,8 @@ def scrape_news_topic_1():
     
     # title = soup.find("h3", class_="article-slot__title").text.strip()
     print(title.text.strip())
-    description = soup.find("article", class_='article__content-body').find_all("p")[0].text.strip()
+    description = soup.find("article", class_='article__content-body').text.strip()
+    # .find_all("p")[0]
     # author = soup.find("span", class_="auth-name").text.strip()
     # publish_date = soup.find("div", class_="publisher-details__date").text.strip()
     

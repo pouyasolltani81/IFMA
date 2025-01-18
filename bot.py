@@ -73,15 +73,19 @@ def format_message(news_item):
     description = news_item['description']
     tag = news_item['tag']
     summary = news_item['summary']
+    t_title =  translate_text(title, "fa")
+    t_description =  translate_text(description, "fa")
+    t_tag =  translate_text(tag, "fa")
+    t_summary =  translate_text(summary, "fa")
     url = news_item['url']
     # url = 'sdfsefsef'
-
+# f"🔍 Summary: {summary}\n\n"
     return (
 
-        f"📢 *{title}*\n\n"
-        f"📝 {description}\n\n"
-        f"🏷️ Tag: {tag}\n\n"
-        f"🔍 Summary: {summary}\n\n"
+        f"📢 *{t_title}*\n\n"
+        f"📝 {t_description}\n\n"
+        f"🏷️ Tag: {t_tag}\n\n"
+        
         f"{url}"
     )
 
@@ -91,9 +95,9 @@ def post_news_to_group(group_key, news_items):
     group_id = group['id']
     for news_item in news_items:
         formatted_message = format_message(news_item)
-        translated_message = translate_text(formatted_message, "fa")
-        print(translated_message)
-        bot.send_message(group_id, translated_message, parse_mode='Markdown')
+        # translated_message = translate_text(formatted_message, "fa")
+        print(formatted_message)
+        bot.send_message(group_id, formatted_message, parse_mode='Markdown')
 
 # Command to get group IDs
 @bot.message_handler(commands=['get_groups'])
