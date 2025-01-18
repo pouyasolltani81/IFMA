@@ -33,11 +33,11 @@ def scrape_news_topic_1():
     print('works')
 
     
-    title = 'srgsdrgf'
-    description = 'sevec'
-    link = 'wer'
-    tag = "Topic 1"
-    summary = "Short summary about the news."
+    title = 'i am alive'
+    description = 'depression after liquedation'
+    link = 'pouya'
+    tag = "bancrupcy"
+    summary = "Ahhhhhhhh....."
 
     news.append({
         "title": title,

@@ -68,16 +68,21 @@ def format_message(news_item):
         f"🔍 Summary: {summary}\n\n"
         f"{url}"
     )
-
-# Send messages to specified group
-def post_news_to_group(group_key, news_items):
+# Send messages to specified group (asynchronous)
+async def post_news_to_group(group_key, news_items):
     group = GROUPS[group_key]
     group_id = group['id']
     for news_item in news_items:
         formatted_message = format_message(news_item)
-        translated_message = translator.translate(formatted_message, src='auto', dest='fa')
-        print(translated_message)
-        bot.send_message(group_id, formatted_message, parse_mode='Markdown')
+        
+        # Perform translation asynchronously
+        translated_message = await translator.translate(formatted_message, src='auto', dest='fa')
+        
+        print(f"Translated Message: {translated_message.text}")
+        
+        # Send the translated message asynchronously
+        await bot.send_message(group_id, translated_message.text, parse_mode='Markdown')
+
 
 # Command to get group IDs
 @bot.message_handler(commands=['get_groups'])
