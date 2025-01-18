@@ -31,7 +31,7 @@ def scrape_news_topic_1():
     # content = main.text.strip()
     # scraped_date = datetime.now()
     news = []
-    print('works')
+    print(description)
 
     
     # title = 'i am alive'
@@ -46,7 +46,7 @@ def scrape_news_topic_1():
         "link": link,
         "tag": tag,
         "summary": summary,
-        'url' : url
+        'url' : link
         
     })
 
