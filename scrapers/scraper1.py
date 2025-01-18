@@ -9,12 +9,12 @@ def scrape_news_topic_1():
     response = requests.get(url ,  headers= headers)
     soup = BeautifulSoup(response.text, 'html.parser')
     articles = soup.find_all("div", class_="article-list__item-wrapper")
-    title =  articles[0].find('h3' , 'article-slot__title')
+    title =  articles[0].find('h3' , 'article-slot__title').text.strip()
     link = title.find("a")["href"]
     article_url = link if link.startswith("http") else url + link
     response = requests.get(article_url ,  headers= headers)
     soup = BeautifulSoup(response.text, 'html.parser')
-    tag = soup.find("a", class_="article-header__category-section") 
+    tag = soup.find("a", class_="article-header__category-section").text.strip() 
 
 
     
