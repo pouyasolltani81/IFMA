@@ -76,6 +76,9 @@ def format_message(news_item):
     summary = news_item['summary']
     url = news_item['url']
 
+    # Create a clickable Telegram link with custom text
+    formatted_url = f"[Click here to view]({url})"  # Custom text for the link
+
     # Prepare the formatted message without the URL
     message = (
         f"📢 *{title}*\n\n"
@@ -85,7 +88,7 @@ def format_message(news_item):
     )
 
     # Return both the text (for translation) and the URL separately
-    return message, url
+    return message, formatted_url
 # Send messages to specified group
 def post_news_to_group(group_key, news_items):
     group = GROUPS[group_key]
