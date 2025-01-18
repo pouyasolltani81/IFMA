@@ -68,36 +68,43 @@ def translate_text(text, target_language):
 
 
 # Function to format messages
+# Function to format messages without translating the URL
 def format_message(news_item):
     title = news_item['title']
     description = news_item['description']
     tag = news_item['tag']
     summary = news_item['summary']
-    t_title =  translate_text(title, "fa")
-    t_description =  translate_text(description, "fa")
-    t_tag =  translate_text(tag, "fa")
-    t_summary =  translate_text(summary, "fa")
     url = news_item['url']
-    # url = 'sdfsefsef'
-# f"🔍 Summary: {summary}\n\n"
-    return (
 
-        f"📢 *{t_title}*\n\n"
-        f"📝 {t_description}\n\n"
-        f"🏷️ Tag: {t_tag}\n\n"
-        
-        f"{url}"
+    # Prepare the formatted message without the URL
+    message = (
+        f"📢 *{title}*\n\n"
+        f"📝 {description}\n\n"
+        f"🏷️ Tag: {tag}\n\n"
+        f"🔍 Summary: {summary}\n\n"
     )
 
+    # Return both the text (for translation) and the URL separately
+    return message, url
 # Send messages to specified group
 def post_news_to_group(group_key, news_items):
     group = GROUPS[group_key]
     group_id = group['id']
+    
     for news_item in news_items:
-        formatted_message = format_message(news_item)
-        # translated_message = translate_text(formatted_message, "fa")
-        print(formatted_message)
-        bot.send_message(group_id, formatted_message, parse_mode='Markdown')
+        # Format the message and get the URL separately
+        formatted_message, url = format_message(news_item)
+        
+        # Translate the message text (excluding the URL)
+        translated_message = translate_text(formatted_message, "fa")
+        
+        # Add the URL at the end of the translated message
+        final_message = f"{translated_message}\n\n{url}"
+        
+        print(f"Final Message: {final_message}")
+        
+        # Send the translated message to the group
+        bot.send_message(group_id, final_message, parse_mode='Markdown')
 
 # Command to get group IDs
 @bot.message_handler(commands=['get_groups'])
