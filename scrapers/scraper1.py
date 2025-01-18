@@ -18,7 +18,7 @@ def scrape_news_topic_1():
 
 
     
-    title = soup.find("h3", class_="article-slot__title").text.strip()
+    # title = soup.find("h3", class_="article-slot__title").text.strip()
     print(title)
     description = soup.find("article", class_='article__content-body').find_all("p")[0].text.strip()
     # author = soup.find("span", class_="auth-name").text.strip()
