@@ -1,6 +1,7 @@
 import telebot
 import schedule
 import time
+import requests
 from googletrans import Translator
 from scrapers.scraper1 import scrape_news_topic_1
 from scrapers.scraper2 import scrape_news_topic_2
@@ -49,6 +50,21 @@ def get_my_id(message):
     bot.reply_to(message, f"Your Telegram ID is: `{user_id}`", parse_mode="Markdown")
 
 
+def translate_text(text, target_language):
+    url = "http://localhost:8000/translate"
+    payload = {
+        "text": text,
+        "to": target_language
+    }
+    headers = {"Content-Type": "application/json"}
+    try:
+        response = requests.post(url, json=payload, headers=headers)
+        if response.status_code == 200:
+            return response.json().get("translatedText", "Translation failed.")
+        else:
+            return f"Error: {response.status_code} - {response.text}"
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 
 # Function to format messages
@@ -75,7 +91,7 @@ def post_news_to_group(group_key, news_items):
     group_id = group['id']
     for news_item in news_items:
         formatted_message = format_message(news_item)
-        translated_message = translator.translate(formatted_message, src='auto', dest='fa')
+        translated_message = translate_text(formatted_message, "fa")
         print(translated_message.text)
         bot.send_message(group_id, formatted_message, parse_mode='Markdown')
 
