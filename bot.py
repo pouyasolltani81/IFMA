@@ -81,7 +81,7 @@ def format_message(news_item):
         f"📢 *{title}*\n\n"
         f"📝 {description}\n\n"
         f"🏷️ Tag: {tag}\n\n"
-        f"🔍 Summary: {summary}\n\n"
+        # f"🔍 Summary: {summary}\n\n"
     )
 
     # Return both the text (for translation) and the URL separately
