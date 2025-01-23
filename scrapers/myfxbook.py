@@ -3,58 +3,60 @@ from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 
 def scrape_news_topic_2():
-    base_url = 'https://www.myfxbook.com'
-    news_page_url = f'{base_url}/news'
+    headers = {
+        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
+    }
+    base_url = "https://www.myfxbook.com"
+    url = f"{base_url}/news"
 
     try:
-        # Send a GET request to fetch the main news page
-        response = requests.get(news_page_url)
-        response.raise_for_status()  # Raise an error for bad status codes
+        # Fetch the main news page
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, 'html.parser')
 
-        # Parse the HTML content with BeautifulSoup
-        soup = BeautifulSoup(response.content, 'html.parser')
-
-        # Find and extract the first news link
+        # Find the first news article
         first_news = soup.select_one("h2.news-top-title a")
         if not first_news:
             print("No news link found.")
             return None
 
-        # Get the href attribute (link) and fix it if it doesn't include 'http' or 'https'
-        news_url = first_news['href']
-        if not news_url.startswith('http'):
-            news_url = urljoin(base_url, news_url)  # Ensure it's a complete URL
+        # Extract the link and fix if relative
+        link = first_news['href']
+        article_url = link if link.startswith("http") else urljoin(base_url, link)
 
-        # Fetch the specific news page
-        news_response = requests.get(news_url)
+        # Fetch the specific news article page
+        news_response = requests.get(article_url, headers=headers)
         news_response.raise_for_status()
-        news_soup = BeautifulSoup(news_response.content, 'html.parser')
+        news_soup = BeautifulSoup(news_response.text, 'html.parser')
 
-        # Extract the news title
+        # Extract title
         title_element = news_soup.select_one("div.col-xs-12 h1")
         title = title_element.text.strip() if title_element else "Title not found"
 
-        # Extract all paragraphs
-        paragraphs = news_soup.find_all('p')
-        paragraph_text = " ".join([p.text.strip() for p in paragraphs])
+        # Extract description
+        description_element = news_soup.find("p")
+        description = description_element.text.strip() if description_element else "Description not available"
 
-        # Tags for the news
-        forex_tags = [
-            "#فارکس", "#اخبار_فارکس", "#اخبار_اقتصادی", "#اخبار_دلار", "#اخبار_جهانی",
-            "#بازار_مالی", "#signal", "#SIGNALFOREX", "#forex", "#news", "#tahlil",
-            "#تحلیل", "#تکنیکال", "#فاندامنتال"
-        ]
+        # Extract tag (if available)
+        tag_element = news_soup.select_one("div.tags a")
+        tag = tag_element.text.strip() if tag_element else "No tag"
 
-        # Create a dictionary for the extracted data
-        news_data = {
+        # Add a summary
+        summary = f"Breaking news from {base_url}, covering forex and market updates."
+
+        # Prepare the news object
+        news = [{
             "title": title,
-            "description": paragraph_text,
-            "link": news_url,
-            "tag": 'forex_tags',
-            "source": 'myfxbook'
-        }
+            "description": description,
+            "link": article_url,
+            "tag": tag,
+            "summary": summary,
+            "url": article_url,
+            "source": "MyFxBook"
+        }]
 
-        return news_data
+        return news
 
     except requests.exceptions.RequestException as e:
         print(f"HTTP request error: {e}")
