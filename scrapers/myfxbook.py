@@ -47,19 +47,12 @@ def scrape_news_topic_2():
          
 
 
-
-        forex_tag = [
-        "#فارکس", "#اخبار_فارکس", "#اخبار_اقتصادی", "#اخبار_دلار", "#اخبار_جهانی",
-        "#بازار_مالی", "#signal", "#SIGNALFOREX", "#forex", "#news", "#tahlil",
-        "#تحلیل", "#تکنیکال", "#فاندامنتال"
-    ]
-
         # Prepare the news object
         news = [{
             "title": title,
             "description": description,
             "link": article_url,
-            "tag": forex_tag,
+            "tag": tag,
             "summary": summary,
             "url": article_url,
             "source": "MyFxBook"

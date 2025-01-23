@@ -32,12 +32,7 @@ def scrape_news_topic_3():
     description = description_element.text.strip() if description_element else "Description not found"
 
     # Extract tags (example: forex-related tags)
-    forex_tag = [
-        "#فارکس", "#اخبار_فارکس", "#اخبار_اقتصادی", "#اخبار_دلار", "#اخبار_جهانی",
-        "#بازار_مالی", "#signal", "#SIGNALFOREX", "#forex", "#news", "#tahlil",
-        "#تحلیل", "#تکنیکال", "#فاندامنتال"
-    ]
-
+   
     # Create a summary (if required, this can be more dynamic)
     summary = "Ahhhhhhhh....."
 
@@ -46,7 +41,7 @@ def scrape_news_topic_3():
         "title": title,
         "description": description,
         "link": link,
-        "tag": forex_tag,  # Here you can also parse more specific tags if available
+        # Here you can also parse more specific tags if available
         "summary": summary,
         "url": article_url,
         "source": "Daily Forex"

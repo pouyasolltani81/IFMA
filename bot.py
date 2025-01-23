@@ -100,7 +100,7 @@ def translate_text(text, target_language):
 def format_message(news_item):
     title = news_item['title']
     description = news_item['description']
-    tag = news_item['forex_tag']
+    tag = news_item['tag']
     summary = news_item['summary']
     url = news_item['url']
 

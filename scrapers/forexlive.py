@@ -15,11 +15,6 @@ def scrape_news_topic_1():
     response = requests.get(article_url ,  headers= headers)
     soup = BeautifulSoup(response.text, 'html.parser')
     tag = soup.find("a", class_="article-header__category-section").text.strip() 
-    forex_tag = [
-        "#فارکس", "#اخبار_فارکس", "#اخبار_اقتصادی", "#اخبار_دلار", "#اخبار_جهانی",
-        "#بازار_مالی", "#signal", "#SIGNALFOREX", "#forex", "#news", "#tahlil",
-        "#تحلیل", "#تکنیکال", "#فاندامنتال"
-    ]
 
 
    
@@ -37,7 +32,7 @@ def scrape_news_topic_1():
         "title": title.text.strip(),
         "description": description,
         "link": link,
-        "tag": forex_tag,
+        "tag": tag,
         "summary": summary,
         'url' :url + link,
         "source": ' Forex live ',
