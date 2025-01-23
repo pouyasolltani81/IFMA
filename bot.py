@@ -18,7 +18,7 @@ translator = Translator()
 # Groups configuration
 GROUPS = {
     "group_1": {'id': '-1002225374157', 'topic': 'Topic 1' , 'topic_id' : '396' },
-    "myfxbook": {'id': '-1002225374157', 'topic': 'Topic 2' , 'topic_id' : '396' },
+    "myfxbook": {'id': '-1002225374157', 'topic': 'Topic 2' , 'topic_id' : '452' },
 }
 
 
