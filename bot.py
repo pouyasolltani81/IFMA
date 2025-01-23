@@ -1,6 +1,7 @@
 import telebot
 import schedule
 import time
+import selenium
 import requests
 from googletrans import Translator
 from scrapers.forexlive import scrape_news_topic_1
