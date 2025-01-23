@@ -5,10 +5,13 @@ import requests
 from googletrans import Translator
 from scrapers.forexlive import scrape_news_topic_1
 from scrapers.myfxbook import scrape_news_topic_2
+from scrapers.datliforex import scrape_news_topic_3
+
+
 
 forex_live_latest_news = ['123443f1']
 myfxbook_latest_news = ['123443f1']
-
+datilforex_latest_news = ['123443f1']
 
 # Config
 BOT_TOKEN = '7626220362:AAHP1a0zWjLRdmpzqfnbf2iXPd1iX538alI'
@@ -19,6 +22,7 @@ translator = Translator()
 GROUPS = {
     "group_1": {'id': '-1002225374157', 'topic': 'Topic 1' , 'topic_id' : '396' },
     "myfxbook": {'id': '-1002225374157', 'topic': 'Topic 2' , 'topic_id' : '452' },
+    "dayliforex": {'id': '-1002225374157', 'topic': 'Topic 3' , 'topic_id' : '452' },
 }
 
 
@@ -141,6 +145,21 @@ def post_news_to_group(group_key, news_items , source):
             print(new_news)
 
 
+
+        if (source == 'dayliforex'):
+
+            print(datilforex_latest_news[-1])
+            print(datilforex_latest_news[0])
+
+
+            datilforex_latest_news.append(url)
+            if (datilforex_latest_news[-1] == datilforex_latest_news[0]):
+                new_news = False
+            
+            datilforex_latest_news.pop(0)
+            print(new_news)
+
+
         if (source == 'myfxbook'):
 
             print(myfxbook_latest_news[-1])
@@ -191,11 +210,18 @@ def job_group_2():
     news = scrape_news_topic_2()
     post_news_to_group('myfxbook', news , 'myfxbook')
 
+
+def job_group_3():
+    news = scrape_news_topic_3()
+    post_news_to_group('dayliforex', news , 'dayliforex')
+
 # Schedule jobs
 # schedule.every(1).hour.do(job_group_1)  # Every hour
 # schedule.every(5).minutes.do(job_group_1) 
 schedule.every(5).seconds.do(job_group_1) 
 schedule.every(5).seconds.do(job_group_2) 
+schedule.every(5).seconds.do(job_group_3) 
+
 
 
 
