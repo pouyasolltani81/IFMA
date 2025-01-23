@@ -3,8 +3,8 @@ import schedule
 import time
 import requests
 from googletrans import Translator
-from scrapers.scraper1 import scrape_news_topic_1
-from scrapers.scraper2 import scrape_news_topic_2
+from scrapers.forexlive import scrape_news_topic_1
+from scrapers.myfxbook import scrape_news_topic_2
 
 forex_live_latest_news = ['123443f1']
 
@@ -16,7 +16,7 @@ translator = Translator()
 # Groups configuration
 GROUPS = {
     "group_1": {'id': '-1002225374157', 'topic': 'Topic 1' , 'topic_id' : '396' },
-    "group_2": {'id': 'CHAT_ID_2', 'topic': 'Topic 2'},
+    "myfxbook": {'id': '-1002225374157', 'topic': 'Topic 2' , 'topic_id' : '396' },
 }
 
 
@@ -173,12 +173,14 @@ def job_group_1():
 
 def job_group_2():
     news = scrape_news_topic_2()
-    post_news_to_group('group_2', news)
+    post_news_to_group('myfxbook', news , 'myfxbook')
 
 # Schedule jobs
 # schedule.every(1).hour.do(job_group_1)  # Every hour
 # schedule.every(5).minutes.do(job_group_1) 
 schedule.every(5).seconds.do(job_group_1) 
+schedule.every(5).seconds.do(job_group_2) 
+
 
 
 # Run the scheduler in a separate thread
