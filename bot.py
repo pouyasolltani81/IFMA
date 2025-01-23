@@ -7,6 +7,8 @@ from scrapers.forexlive import scrape_news_topic_1
 from scrapers.myfxbook import scrape_news_topic_2
 
 forex_live_latest_news = ['123443f1']
+myfxbook_latest_news = ['123443f1']
+
 
 # Config
 BOT_TOKEN = '7626220362:AAHP1a0zWjLRdmpzqfnbf2iXPd1iX538alI'
@@ -136,6 +138,20 @@ def post_news_to_group(group_key, news_items , source):
                 new_news = False
             
             forex_live_latest_news.pop(0)
+            print(new_news)
+
+
+        if (source == 'myfxbook'):
+
+            print(myfxbook_latest_news[-1])
+            print(myfxbook_latest_news[0])
+
+
+            myfxbook_latest_news.append(url)
+            if (myfxbook_latest_news[-1] == myfxbook_latest_news[0]):
+                new_news = False
+            
+            myfxbook_latest_news.pop(0)
             print(new_news)
 
 
