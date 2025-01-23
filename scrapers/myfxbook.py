@@ -44,13 +44,22 @@ def scrape_news_topic_2():
 
         # Add a summary
         summary = f"Breaking news from {base_url}, covering forex and market updates."
+         
+
+
+
+        forex_tag = [
+        "#فارکس", "#اخبار_فارکس", "#اخبار_اقتصادی", "#اخبار_دلار", "#اخبار_جهانی",
+        "#بازار_مالی", "#signal", "#SIGNALFOREX", "#forex", "#news", "#tahlil",
+        "#تحلیل", "#تکنیکال", "#فاندامنتال"
+    ]
 
         # Prepare the news object
         news = [{
             "title": title,
             "description": description,
             "link": article_url,
-            "tag": tag,
+            "tag": forex_tag,
             "summary": summary,
             "url": article_url,
             "source": "MyFxBook"

@@ -23,7 +23,7 @@ GROUPS = {
     "group_1": {'id': '-1002337862544', 'topic': 'Topic 1' , 'topic_id' : '83' ,  'channel_id' : '@NEWSLIVEFOREX'},
     "myfxbook": {'id': '-1002337862544', 'topic': 'Topic 2' , 'topic_id' : '83' ,  'channel_id' : '@NEWSLIVEFOREX'},
     "dayliforex": {'id': '-1002337862544', 'topic': 'Topic 3' , 'topic_id' : '83' ,  'channel_id' : '@NEWSLIVEFOREX'},
-  
+    
 
 }
 
@@ -145,6 +145,9 @@ def post_news_to_group(group_key, news_items , source):
             
             forex_live_latest_news.pop(0)
             print(new_news)
+
+
+
 
 
 
