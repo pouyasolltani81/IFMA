@@ -126,6 +126,12 @@ def post_news_to_group(group_key, news_items , source):
         formatted_message, url = format_message(news_item)
 
         if (source == 'forexlive'):
+
+            print(forex_live_latest_news[-1])
+            print(forex_live_latest_news[0])
+            print(new_news)
+
+
             forex_live_latest_news.append(url)
             if (forex_live_latest_news[-1] == forex_live_latest_news[0]):
                 forex_live_latest_news.pop(0)
@@ -138,7 +144,7 @@ def post_news_to_group(group_key, news_items , source):
         # Add the URL at the end of the translated message
         final_message = f"{translated_message}\n\n{url}"
         
-        print(f"Final Message: {final_message}")
+        print(f"Final Message: {url}")
         
         if (new_news) :
 
