@@ -129,13 +129,15 @@ def post_news_to_group(group_key, news_items , source):
 
             print(forex_live_latest_news[-1])
             print(forex_live_latest_news[0])
-            print(new_news)
 
 
             forex_live_latest_news.append(url)
             if (forex_live_latest_news[-1] == forex_live_latest_news[0]):
                 forex_live_latest_news.pop(0)
                 new_news = False
+            
+            print(new_news)
+
 
         
         # Translate the message text (excluding the URL)
