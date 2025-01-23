@@ -43,15 +43,18 @@ def scrape_news_topic_3():
     summary = "Ahhhhhhhh....."
 
     # Prepare the news data
-    news = [{
-        "title": title,
+    news.append({
+        "title": title.text.strip(),
         "description": description,
         "link": link,
-        # Here you can also parse more specific tags if available
+        "tag": tag,
         "summary": summary,
-        "url": article_url,
-        "source": "Daily Forex"
-    }]
+        'url' :url + link,
+        "source": ' Forex live ',
+
+        
+    })
+
 
     return news
 

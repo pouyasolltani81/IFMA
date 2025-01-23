@@ -171,6 +171,7 @@ def post_news_to_group(group_key, news_items , source):
             if (datilforex_latest_news[-1] == datilforex_latest_news[0]):
                 new_news = False
             
+            
             datilforex_latest_news.pop(0)
             print(new_news)
 

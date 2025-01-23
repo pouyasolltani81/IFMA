@@ -48,15 +48,18 @@ def scrape_news_topic_2():
 
 
         # Prepare the news object
-        news = [{
-            "title": title,
-            "description": description,
-            "link": article_url,
-            "tag": tag,
-            "summary": summary,
-            "url": article_url,
-            "source": "MyFxBook"
-        }]
+        news.append({
+        "title": title.text.strip(),
+        "description": description,
+        "link": link,
+        "tag": tag,
+        "summary": summary,
+        'url' :url + link,
+        "source": ' Forex live ',
+
+        
+    })
+
 
         return news
 
