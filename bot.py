@@ -110,9 +110,11 @@ def format_message(news_item):
     # Return both the text (for translation) and the URL separately
     return message, formatted_url
 
-new_news =True
 # Send messages to specified group
 def post_news_to_group(group_key, news_items , source):
+
+    
+    new_news =True
     
     group = GROUPS[group_key]
     group_id = group['id']
