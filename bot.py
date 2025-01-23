@@ -99,7 +99,7 @@ def format_message(news_item):
     url = news_item['url']
 
     # Create a clickable Telegram link with custom text
-    formatted_url = f"[Click here to view]({url})"  # Custom text for the link
+    formatted_url = f"[{news_item['source']}]({url})"  # Custom text for the link
 
     # Prepare the formatted message without the URL
     message = (
