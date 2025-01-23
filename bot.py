@@ -9,14 +9,21 @@ from scrapers.datliforex import scrape_news_topic_3
 
 
 
+
 forex_live_latest_news = ['123443f1']
 myfxbook_latest_news = ['123443f1']
 datilforex_latest_news = ['123443f1']
+
+
+
 
 # Config
 BOT_TOKEN = '7626220362:AAHP1a0zWjLRdmpzqfnbf2iXPd1iX538alI'
 bot = telebot.TeleBot(BOT_TOKEN)
 translator = Translator()
+
+
+
 
 # Groups configuration
 GROUPS = {
@@ -25,7 +32,10 @@ GROUPS = {
     "dayliforex": {'id': '-1002337862544', 'topic': 'Topic 3' , 'topic_id' : '83' ,  'channel_id' : '@NEWSLIVEFOREX'},
     
 
+
 }
+
+
 
 
 
