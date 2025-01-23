@@ -133,9 +133,9 @@ def post_news_to_group(group_key, news_items , source):
 
             forex_live_latest_news.append(url)
             if (forex_live_latest_news[-1] == forex_live_latest_news[0]):
-                forex_live_latest_news.pop(0)
                 new_news = False
             
+            forex_live_latest_news.pop(0)
             print(new_news)
 
 
