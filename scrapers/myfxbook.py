@@ -1,12 +1,14 @@
 import requests
 from bs4 import BeautifulSoup
+from urllib.parse import urljoin
 
 def scrape_news_topic_2():
-    url = 'https://www.myfxbook.com/news'
+    base_url = 'https://www.myfxbook.com'
+    news_page_url = f'{base_url}/news'
 
     try:
-        # Send a GET request to fetch the page content
-        response = requests.get(url)
+        # Send a GET request to fetch the main news page
+        response = requests.get(news_page_url)
         response.raise_for_status()  # Raise an error for bad status codes
 
         # Parse the HTML content with BeautifulSoup
@@ -18,7 +20,10 @@ def scrape_news_topic_2():
             print("No news link found.")
             return None
 
-        news_url = first_news['href']  # Get the href attribute (link)
+        # Get the href attribute (link) and fix it if it doesn't include 'http' or 'https'
+        news_url = first_news['href']
+        if not news_url.startswith('http'):
+            news_url = urljoin(base_url, news_url)  # Ensure it's a complete URL
 
         # Fetch the specific news page
         news_response = requests.get(news_url)
