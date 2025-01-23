@@ -3,11 +3,6 @@ from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 
 
-
-
-
-
-
 def scrape_news_topic_3():
     headers = {
         'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
@@ -38,27 +33,27 @@ def scrape_news_topic_3():
     description = description_element.text.strip() if description_element else "Description not found"
 
     # Extract tags (example: forex-related tags)
-   
+    tag_element = article_soup.select_one("div.tags")
+    tag = tag_element.text.strip() if tag_element else "Tag not found"
+
     # Create a summary (if required, this can be more dynamic)
-    summary = "Ahhhhhhhh....."
+    summary = "This is a brief summary of the article."
 
     # Prepare the news data
-    news.append({
-        "title": title.text.strip(),
+    news = [{
+        "title": title,
         "description": description,
-        "link": link,
+        "link": article_url,
         "tag": tag,
         "summary": summary,
-        'url' :url + link,
-        "source": ' Forex live ',
-
-        
-    })
-
+        "source": "Forex Live"
+    }]
 
     return news
+
 
 # Example usage
 if __name__ == "__main__":
     scraped_news = scrape_news_topic_3()
-    
+    for article in scraped_news:
+        print(article)
