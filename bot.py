@@ -19,29 +19,47 @@ GROUPS = {
 
 
 
-
 @bot.message_handler(commands=['start'])
 def handle_start(message):
-    chat_id = message.chat.id  # Get the chat ID (group or user)
+    chat_id = message.chat.id  # Get the chat ID (group, channel, or user)
     chat_title = message.chat.title if message.chat.type != 'private' else "Private Chat"
+    topic_id = message.message_thread_id if hasattr(message, 'message_thread_id') else None  # For forum topics
 
+    # Check if the chat type is a channel
+    if message.chat.type == 'channel':
+        channel_id = chat_id
+    else:
+        channel_id = None
+
+    # Construct the response message
     response = (
         f"Hello! 👋\n"
         f"Your Chat ID is: `{chat_id}`\n"
         f"Chat Name: {chat_title}\n"
-        f"Type: {message.chat.type}"
+        f"Type: {message.chat.type}\n"
     )
+    if topic_id:
+        response += f"Topic ID: `{topic_id}`\n"
+    if channel_id:
+        response += f"Channel ID: `{channel_id}`\n"
+
     bot.reply_to(message, response, parse_mode="Markdown")
 
     # Optionally, log or send this information to the bot admin
     admin_id = 166946747  # Replace with your Telegram ID
-    bot.send_message(
-        admin_id,
+    admin_message = (
         f"Bot started in:\n"
         f"Chat ID: {chat_id}\n"
         f"Chat Name: {chat_title}\n"
-        f"Type: {message.chat.type}",
+        f"Type: {message.chat.type}\n"
     )
+    if topic_id:
+        admin_message += f"Topic ID: {topic_id}\n"
+    if channel_id:
+        admin_message += f"Channel ID: {channel_id}\n"
+
+    bot.send_message(admin_id, admin_message)
+
 
 
 @bot.message_handler(commands=['get_my_id'])
