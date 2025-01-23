@@ -14,7 +14,7 @@ def scrape_news_topic_1():
     article_url = link if link.startswith("http") else url + link
     response = requests.get(article_url ,  headers= headers)
     soup = BeautifulSoup(response.text, 'html.parser')
-    tag = soup.find("a", class_="article-header__category-section").text.strip() 
+    tag = soup.find("a", class_="article-header__category-section").text.strip() if soup.find("a", class_="article-header__category-section") else "No tag"
 
 
    
