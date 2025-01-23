@@ -13,7 +13,7 @@ translator = Translator()
 
 # Groups configuration
 GROUPS = {
-    "group_1": {'id': '-1002225374157', 'topic': 'Topic 1'},
+    "group_1": {'id': '-1002225374157', 'topic': 'Topic 1' , 'topic_id' : '396' },
     "group_2": {'id': 'CHAT_ID_2', 'topic': 'Topic 2'},
 }
 
@@ -111,7 +111,9 @@ def format_message(news_item):
 def post_news_to_group(group_key, news_items):
     group = GROUPS[group_key]
     group_id = group['id']
-    
+    topic_id = group.get('topic_id')  # Retrieve the topic ID if present
+    channel_id = group.get('channel_id')  # Retrieve the channel ID if present
+
     for news_item in news_items:
         # Format the message and get the URL separately
         formatted_message, url = format_message(news_item)
@@ -124,8 +126,14 @@ def post_news_to_group(group_key, news_items):
         
         print(f"Final Message: {final_message}")
         
-        # Send the translated message to the group
-        bot.send_message(group_id, final_message, parse_mode='Markdown')
+        # Determine the target destination
+        if topic_id:
+            bot.send_message(group_id, final_message, parse_mode='Markdown', message_thread_id=topic_id)
+        elif channel_id:
+            bot.send_message(channel_id, final_message, parse_mode='Markdown')
+        else:
+            bot.send_message(group_id, final_message, parse_mode='Markdown')
+
 
 # Command to get group IDs
 @bot.message_handler(commands=['get_groups'])
