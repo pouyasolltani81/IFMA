@@ -100,7 +100,7 @@ def translate_text(text, target_language):
 def format_message(news_item):
     title = news_item['title']
     description = news_item['description']
-    tag = news_item['tag']
+    tag = news_item['forex_tag']
     summary = news_item['summary']
     url = news_item['url']
 
@@ -111,7 +111,7 @@ def format_message(news_item):
     message = (
         f"📢 *{title}*\n\n"
         f"📝 {description}\n\n"
-        f"🏷️ Tag: {tag}\n\n"
+        f"🏷️ Tag: { tag }\n\n"
         # f"🔍 Summary: {summary}\n\n"
     )
 
