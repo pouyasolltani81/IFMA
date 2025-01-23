@@ -6,6 +6,8 @@ from googletrans import Translator
 from scrapers.scraper1 import scrape_news_topic_1
 from scrapers.scraper2 import scrape_news_topic_2
 
+forex_live_latest_news = ['123443f1']
+
 # Config
 BOT_TOKEN = '7626220362:AAHP1a0zWjLRdmpzqfnbf2iXPd1iX538alI'
 bot = telebot.TeleBot(BOT_TOKEN)
@@ -107,8 +109,11 @@ def format_message(news_item):
 
     # Return both the text (for translation) and the URL separately
     return message, formatted_url
+
+new_news =True
 # Send messages to specified group
-def post_news_to_group(group_key, news_items):
+def post_news_to_group(group_key, news_items , source):
+    
     group = GROUPS[group_key]
     group_id = group['id']
     topic_id = group.get('topic_id')  # Retrieve the topic ID if present
@@ -117,6 +122,13 @@ def post_news_to_group(group_key, news_items):
     for news_item in news_items:
         # Format the message and get the URL separately
         formatted_message, url = format_message(news_item)
+
+        if (source == 'forexlive'):
+            forex_live_latest_news.append(url)
+            if (forex_live_latest_news[-1] == forex_live_latest_news[0]):
+                forex_live_latest_news.pop(0)
+                new_news = False
+
         
         # Translate the message text (excluding the URL)
         translated_message = translate_text(formatted_message, "fa")
@@ -126,13 +138,16 @@ def post_news_to_group(group_key, news_items):
         
         print(f"Final Message: {final_message}")
         
-        # Determine the target destination
-        if topic_id:
-            bot.send_message(group_id, final_message, parse_mode='Markdown', message_thread_id=topic_id)
-        elif channel_id:
-            bot.send_message(channel_id, final_message, parse_mode='Markdown')
-        else:
-            bot.send_message(group_id, final_message, parse_mode='Markdown')
+        if (new_news) :
+
+            
+            # Determine the target destination
+            if topic_id:
+                bot.send_message(group_id, final_message, parse_mode='Markdown', message_thread_id=topic_id)
+            elif channel_id:
+                bot.send_message(channel_id, final_message, parse_mode='Markdown')
+            else:
+                bot.send_message(group_id, final_message, parse_mode='Markdown')
 
 
 # Command to get group IDs
@@ -144,7 +159,7 @@ def get_groups(message):
 # Jobs for different groups
 def job_group_1():
     news = scrape_news_topic_1()
-    post_news_to_group('group_1', news)
+    post_news_to_group('group_1', news , 'forexlive')
 
 def job_group_2():
     news = scrape_news_topic_2()
@@ -152,7 +167,7 @@ def job_group_2():
 
 # Schedule jobs
 # schedule.every(1).hour.do(job_group_1)  # Every hour
-schedule.every(5).minutes.do(job_group_1) 
+# schedule.every(5).minutes.do(job_group_1) 
 schedule.every(5).seconds.do(job_group_1) 
 
 
