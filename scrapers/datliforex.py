@@ -46,6 +46,8 @@ def scrape_news_topic_3():
         "link": article_url,
         "tag": tag,
         "summary": summary,
+        "url": article_url,
+
         "source": "Forex Live"
     }]
 
