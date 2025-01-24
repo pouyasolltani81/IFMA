@@ -54,8 +54,8 @@ def scrape_news_topic_2():
         "link": link,
         "tag": tag,
         "summary": summary,
-        'url' :url + link,
-        "source": ' Forex live ',
+        'url' :article_url,
+        "source": 'myfxbook',
 
         
     })
@@ -74,5 +74,4 @@ def scrape_news_topic_2():
 # Example usage
 if __name__ == "__main__":
     news = scrape_news_topic_2()
-    if news:
-        print(news)
+   
