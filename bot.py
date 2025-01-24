@@ -9,33 +9,23 @@ from scrapers.datliforex import scrape_news_topic_3
 
 
 
-
 forex_live_latest_news = ['123443f1']
 myfxbook_latest_news = ['123443f1']
 datilforex_latest_news = ['123443f1']
-
-
-
 
 # Config
 BOT_TOKEN = '7626220362:AAHP1a0zWjLRdmpzqfnbf2iXPd1iX538alI'
 bot = telebot.TeleBot(BOT_TOKEN)
 translator = Translator()
 
-
-
-
 # Groups configuration
 GROUPS = {
     "group_1": {'id': '-1002337862544', 'topic': 'Topic 1' , 'topic_id' : '83' ,  'channel_id' : '@NEWSLIVEFOREX'},
     "myfxbook": {'id': '-1002337862544', 'topic': 'Topic 2' , 'topic_id' : '83' ,  'channel_id' : '@NEWSLIVEFOREX'},
     "dayliforex": {'id': '-1002337862544', 'topic': 'Topic 3' , 'topic_id' : '83' ,  'channel_id' : '@NEWSLIVEFOREX'},
-    
-
+  
 
 }
-
-
 
 
 
@@ -121,7 +111,7 @@ def format_message(news_item):
     message = (
         f"📢 *{title}*\n\n"
         f"📝 {description}\n\n"
-        f"🏷️ Tag: { tag }\n\n"
+        f"🏷️ Tag: {tag}\n\n"
         # f"🔍 Summary: {summary}\n\n"
     )
 
@@ -139,77 +129,72 @@ def post_news_to_group(group_key, news_items , source):
     topic_id = group.get('topic_id')  # Retrieve the topic ID if present
     channel_id = group.get('channel_id')  # Retrieve the channel ID if present
 
-    if (news_items) :
-        for news_item in news_items:
-            # Format the message and get the URL separately
-            formatted_message, url = format_message(news_item)
+    for news_item in news_items:
+        # Format the message and get the URL separately
+        formatted_message, url = format_message(news_item)
 
-            if (source == 'forexlive'):
+        if (source == 'forexlive'):
 
-                print(forex_live_latest_news[-1])
-                print(forex_live_latest_news[0])
+            print(forex_live_latest_news[-1])
+            print(forex_live_latest_news[0])
 
 
-                forex_live_latest_news.append(url)
-                if (forex_live_latest_news[-1] == forex_live_latest_news[0]):
-                    new_news = False
-                
-                forex_live_latest_news.pop(0)
-                print(new_news)
-
+            forex_live_latest_news.append(url)
+            if (forex_live_latest_news[-1] == forex_live_latest_news[0]):
+                new_news = False
+            
+            forex_live_latest_news.pop(0)
+            print(new_news)
 
 
 
+        if (source == 'dayliforex'):
+
+            print(datilforex_latest_news[-1])
+            print(datilforex_latest_news[0])
 
 
-            if (source == 'dayliforex'):
-
-                print(datilforex_latest_news[-1])
-                print(datilforex_latest_news[0])
-
-
-                datilforex_latest_news.append(url)
-                if (datilforex_latest_news[-1] == datilforex_latest_news[0]):
-                    new_news = False
-                
-                
-                datilforex_latest_news.pop(0)
-                print(new_news)
+            datilforex_latest_news.append(url)
+            if (datilforex_latest_news[-1] == datilforex_latest_news[0]):
+                new_news = False
+            
+            datilforex_latest_news.pop(0)
+            print(new_news)
 
 
-            if (source == 'myfxbook'):
+        if (source == 'myfxbook'):
 
-                print(myfxbook_latest_news[-1])
-                print(myfxbook_latest_news[0])
+            print(myfxbook_latest_news[-1])
+            print(myfxbook_latest_news[0])
 
 
-                myfxbook_latest_news.append(url)
-                if (myfxbook_latest_news[-1] == myfxbook_latest_news[0]):
-                    new_news = False
-                
-                myfxbook_latest_news.pop(0)
-                print(new_news)
+            myfxbook_latest_news.append(url)
+            if (myfxbook_latest_news[-1] == myfxbook_latest_news[0]):
+                new_news = False
+            
+            myfxbook_latest_news.pop(0)
+            print(new_news)
 
+
+        
+        # Translate the message text (excluding the URL)
+        translated_message = translate_text(formatted_message, "fa")
+        
+        # Add the URL at the end of the translated message
+        final_message = f"{translated_message}\n\n{url}"
+        
+        print(f"Final Message: {url}")
+        
+        if (new_news) :
 
             
-            # Translate the message text (excluding the URL)
-            translated_message = translate_text(formatted_message, "fa")
-            
-            # Add the URL at the end of the translated message
-            final_message = f"{translated_message}\n\n{url}"
-            
-            print(f"Final Message: {url}")
-            
-            if (new_news) :
-
-                
-                # Determine the target destination
-                if topic_id:
-                    bot.send_message(group_id, final_message, parse_mode='Markdown', message_thread_id=topic_id)
-                if channel_id:
-                    bot.send_message(channel_id, final_message, parse_mode='Markdown')
-                # else:
-                #     bot.send_message(group_id, final_message, parse_mode='Markdown')
+            # Determine the target destination
+            if topic_id:
+                bot.send_message(group_id, final_message, parse_mode='Markdown', message_thread_id=topic_id)
+            if channel_id:
+                bot.send_message(channel_id, final_message, parse_mode='Markdown')
+            # else:
+            #     bot.send_message(group_id, final_message, parse_mode='Markdown')
 
 
 # Command to get group IDs

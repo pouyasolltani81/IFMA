@@ -2,7 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 
-
 def scrape_news_topic_3():
     headers = {
         'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
@@ -33,29 +32,29 @@ def scrape_news_topic_3():
     description = description_element.text.strip() if description_element else "Description not found"
 
     # Extract tags (example: forex-related tags)
-    tag_element = article_soup.select_one("div.tags")
-    tag = tag_element.text.strip() if tag_element else "Tag not found"
+    forex_tag = [
+        "#فارکس", "#اخبار_فارکس", "#اخبار_اقتصادی", "#اخبار_دلار", "#اخبار_جهانی",
+        "#بازار_مالی", "#signal", "#SIGNALFOREX", "#forex", "#news", "#tahlil",
+        "#تحلیل", "#تکنیکال", "#فاندامنتال"
+    ]
 
     # Create a summary (if required, this can be more dynamic)
-    summary = "This is a brief summary of the article."
+    summary = "Ahhhhhhhh....."
 
     # Prepare the news data
     news = [{
         "title": title,
         "description": description,
-        "link": article_url,
-        "tag": tag,
+        "link": link,
+        "tag": forex_tag,  # Here you can also parse more specific tags if available
         "summary": summary,
         "url": article_url,
-
-        "source": "Forex Live"
+        "source": "Daily Forex"
     }]
 
     return news
 
-
 # Example usage
 if __name__ == "__main__":
     scraped_news = scrape_news_topic_3()
-    for article in scraped_news:
-        print(article)
+    

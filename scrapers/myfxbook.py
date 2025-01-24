@@ -44,23 +44,17 @@ def scrape_news_topic_2():
 
         # Add a summary
         summary = f"Breaking news from {base_url}, covering forex and market updates."
-         
-
 
         # Prepare the news object
-        news.append({
-        "title": title.text.strip(),
-        "description": description,
-        "link": link,
-        "tag": tag,
-        "summary": summary,
-        'url' :article_url,
-        "source": 'myfxbook',
-
-        
-    })
-
-
+        news = [{
+            "title": title,
+            "description": description,
+            "link": article_url,
+            "tag": tag,
+            "summary": summary,
+            "url": article_url,
+            "source": "MyFxBook"
+        }]
 
         return news
 
@@ -74,4 +68,5 @@ def scrape_news_topic_2():
 # Example usage
 if __name__ == "__main__":
     news = scrape_news_topic_2()
-   
+    if news:
+        print(news)
