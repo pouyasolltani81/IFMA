@@ -23,7 +23,7 @@ GROUPS = {
     "group_1": {'id': '-1002337862544', 'topic': 'Topic 1' , 'topic_id' : '83' ,  'channel_id' : '@NEWSLIVEFOREX'},
     "myfxbook": {'id': '-1002337862544', 'topic': 'Topic 2' , 'topic_id' : '83' ,  'channel_id' : '@NEWSLIVEFOREX'},
     "dayliforex": {'id': '-1002337862544', 'topic': 'Topic 3' , 'topic_id' : '83' ,  'channel_id' : '@NEWSLIVEFOREX'},
-  
+    
 
 }
 
