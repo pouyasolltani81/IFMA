@@ -177,7 +177,7 @@ def post_news_to_group(group_key, news_items , source):
             print(new_news)
 
 
-         if (source == 'coinpotato'):
+        if (source == 'coinpotato'):
 
             print(coinpotato_lastest_news[-1])
             print(coinpotato_lastest_news[0])

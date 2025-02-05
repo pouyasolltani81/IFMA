@@ -86,4 +86,6 @@ def scrape_news_topic_7():
 
 # Example usage
 if __name__ == "__main__":
-    scrape_news_topic_7()
+    news = scrape_news_topic_7()
+    if news:
+        print(news)
