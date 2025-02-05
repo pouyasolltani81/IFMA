@@ -6,14 +6,12 @@ from googletrans import Translator
 from scrapers.forexlive import scrape_news_topic_1
 from scrapers.myfxbook import scrape_news_topic_2
 from scrapers.datliforex import scrape_news_topic_3
-from scrapers.cointelegraph import scrape_news_topic_7
-from scrapers.coinpotato import scrape_news_topic_8
+
 
 forex_live_latest_news = ['123443f1']
 myfxbook_latest_news = ['123443f1']
 datilforex_latest_news = ['123443f1']
-coinpotato_lastest_news = ['123443f1']
-cointelegraph_lastest_news = ['123443f1']
+
 
 
 # Config
@@ -26,8 +24,7 @@ GROUPS = {
     "group_1": {'id': '-1002337862544', 'topic': 'Topic 1' , 'topic_id' : '83' ,  'channel_id' : '@NEWSLIVEFOREX'},
     "myfxbook": {'id': '-1002337862544', 'topic': 'Topic 2' , 'topic_id' : '83' ,  'channel_id' : '@NEWSLIVEFOREX'},
     "dayliforex": {'id': '-1002337862544', 'topic': 'Topic 3' , 'topic_id' : '83' ,  'channel_id' : '@NEWSLIVEFOREX'},
-    "coinpotato": {'id': '-1002337862544', 'topic': 'Topic 4' , 'topic_id' : '83' ,  'channel_id' : '@NEWSLIVEFOREX'},
-    "cointelegraph": {'id': '-1002337862544', 'topic': 'Topic 5' , 'topic_id' : '83' ,  'channel_id' : '@NEWSLIVEFOREX'},
+    
 }
 
 
@@ -179,33 +176,7 @@ def post_news_to_group(group_key, news_items , source):
             print(new_news)
 
 
-        if (source == 'coinpotato'):
-
-            print(coinpotato_lastest_news[-1])
-            print(coinpotato_lastest_news[0])
-
-
-            coinpotato_lastest_news.append(url)
-            if (coinpotato_lastest_news[-1] == coinpotato_lastest_news[0]):
-                new_news = False
-            
-            coinpotato_lastest_news.pop(0)
-            print(new_news)
-
-        if (source == 'cointelegraph'):
-
-            print(cointelegraph_lastest_news[-1])
-            print(cointelegraph_lastest_news[0])
-
-
-            cointelegraph_lastest_news.append(url)
-            if (cointelegraph_lastest_news[-1] == cointelegraph_lastest_news[0]):
-                new_news = False
-            
-            cointelegraph_lastest_news.pop(0)
-            print(new_news)    
-
-
+        
         
         # Translate the message text (excluding the URL)
         translated_message = translate_text(formatted_message, "fa")
@@ -247,13 +218,7 @@ def job_group_3():
     news = scrape_news_topic_3()
     post_news_to_group('dayliforex', news , 'dayliforex')
 
-def job_group_4():
-    news = scrape_news_topic_7()
-    post_news_to_group('cointelegraph', news , 'cointelegraph')    
 
-def job_group_5():
-    news = scrape_news_topic_8()
-    post_news_to_group('coinpotato', news , 'coinpotato')    
 
 # Schedule jobs
 # schedule.every(1).hour.do(job_group_1)  # Every hour
@@ -261,8 +226,6 @@ def job_group_5():
 schedule.every(5).seconds.do(job_group_1) 
 schedule.every(5).seconds.do(job_group_2) 
 schedule.every(5).seconds.do(job_group_3) 
-schedule.every(5).seconds.do(job_group_4) 
-schedule.every(5).seconds.do(job_group_5) 
 
 
 
