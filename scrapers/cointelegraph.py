@@ -4,7 +4,6 @@ from urllib.parse import urljoin
 import requests
 
 
-
 def scrape_news_topic_7():
    
     base_url = "https://cointelegraph.com/markets"
@@ -86,6 +85,4 @@ def scrape_news_topic_7():
 
 # Example usage
 if __name__ == "__main__":
-    news = scrape_news_topic_7()
-    if news:
-        print(news)
+    scrape_news_topic_7()
