@@ -70,6 +70,7 @@ def scrape_news_topic_7():
              'url' :article_url,
        
         }]
+        print(news)
 
         return news
 
