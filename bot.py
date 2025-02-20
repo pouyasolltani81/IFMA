@@ -6,7 +6,8 @@ from googletrans import Translator
 from scrapers.forexlive import scrape_news_topic_1
 from scrapers.myfxbook import scrape_news_topic_2
 from scrapers.datliforex import scrape_news_topic_3
-
+from scrapers.coinpotato import scrape_news_topic_8
+from scrapers.cointelegraph import scrape_news_topic_7
 
 forex_live_latest_news = ['123443f1']
 myfxbook_latest_news = ['123443f1']
@@ -243,14 +244,13 @@ def job_group_2():
 def job_group_3():
     news = scrape_news_topic_3()
     post_news_to_group('dayliforex', news ,'dayliforex')
+def job_group_4():
+     news = scrape_news_topic_7()
+     post_news_to_group('ointelegraph', news , 'cointelegraph')    
 
-# def job_group_4():
-#     news = scrape_news_topic_7()
-#     post_news_to_group('group_4', news , 'cointelegraph')    
-
-# def job_group_5():
-#     news = scrape_news_topic_8()
-#     post_news_to_group('group_5', news , 'coinpotato')
+def job_group_5():
+     news = scrape_news_topic_8()
+     post_news_to_group('oinpotato', news , 'coinpotato')
 
 
 
@@ -260,8 +260,8 @@ def job_group_3():
 schedule.every(5).seconds.do(job_group_1) 
 schedule.every(5).seconds.do(job_group_2) 
 schedule.every(5).seconds.do(job_group_3) 
-# schedule.every(5).seconds.do(job_group_4) 
-# schedule.every(5).seconds.do(job_group_5) 
+schedule.every(5).seconds.do(job_group_4) 
+schedule.every(5).seconds.do(job_group_5) 
 
 
 
