@@ -29,12 +29,12 @@ def scrape_news_topic_1():
     summary = "Ahhhhhhhh....."
 
     news.append({
-        "title": title.text.strip(),
-        "description": description,
-        "link": link,
-        "tag": tag,
-        "summary": summary,
-        'url' :url + link,
+        "title":" title.text.strip()",
+        "description": "description",
+        "link": "link",
+        "tag": "tag",
+        "summary": "summary",
+        'url' :"url + link",
         "source": ' Forex live ',
 
         
