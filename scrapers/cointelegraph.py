@@ -66,7 +66,7 @@ def scrape_news_topic_7():
             "tag": "crypto_tag",
             "source": "CoinTelegraph",
             "link": article_url,
-            'summery': 'i have dieria'
+            'summary': 'i have dieria'
         }]
 
         return news
