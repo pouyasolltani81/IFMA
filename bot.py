@@ -237,12 +237,12 @@ def job_group_1():
 
 def job_group_2():
     news = scrape_news_topic_2()
-    post_news_to_group('group_2', news ,'myfxbook')
+    post_news_to_group('myfxbook', news ,'myfxbook')
 
 
 def job_group_3():
     news = scrape_news_topic_3()
-    post_news_to_group('group_3', news ,'dayliforex')
+    post_news_to_group('dayliforex', news ,'dayliforex')
 
 # def job_group_4():
 #     news = scrape_news_topic_7()
