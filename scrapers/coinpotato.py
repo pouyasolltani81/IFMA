@@ -50,18 +50,22 @@ def scrape_news_topic_8():
         news = [{
             "title": title,
             "description": descriptions,
-            "tag": crypto_tag,
+            "tag": 'crypto_tag',
             "source": "CryptoPotato",
             "link": article_url
         }]
 
-        # Print the news
-        for article in news:
-            print(f"Title: {article['title']}")
-            print(f"Descriptions: {', '.join(article['description'])}")
-            print(f"Source: {article['source']}")
-            print(f"Tags: {', '.join(article['tag'])}")
-            print(f"Link: {article['link']}")
+        # # Print the news
+        # for article in news:
+        #     print(f"Title: {article['title']}")
+        #     print(f"Descriptions: {', '.join(article['description'])}")
+        #     print(f"Source: {article['source']}")
+        #     print(f"Tags: {', '.join(article['tag'])}")
+        #     print(f"Link: {article['link']}")
+
+        print(news)
+
+        return news
 
     except requests.exceptions.RequestException as e:
         print(f"HTTP request error: {e}")
