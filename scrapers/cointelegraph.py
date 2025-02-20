@@ -63,10 +63,12 @@ def scrape_news_topic_7():
         news = [{
             "title": title,
             "description": description,
-            "tag": crypto_tag,
+            "tag": "crypto_tag",
             "source": "CoinTelegraph",
             "link": article_url
         }]
+
+        return news
 
         # Print the news
         for article in news:
