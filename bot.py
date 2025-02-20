@@ -244,13 +244,13 @@ def job_group_3():
     news = scrape_news_topic_3()
     post_news_to_group('group_3', news ,'dayliforex')
 
-def job_group_4():
-    news = scrape_news_topic_7()
-    post_news_to_group('group_4', news , 'cointelegraph')    
+# def job_group_4():
+#     news = scrape_news_topic_7()
+#     post_news_to_group('group_4', news , 'cointelegraph')    
 
-def job_group_5():
-    news = scrape_news_topic_8()
-    post_news_to_group('group_5', news , 'coinpotato')
+# def job_group_5():
+#     news = scrape_news_topic_8()
+#     post_news_to_group('group_5', news , 'coinpotato')
 
 
 
@@ -260,8 +260,8 @@ def job_group_5():
 schedule.every(5).seconds.do(job_group_1) 
 schedule.every(5).seconds.do(job_group_2) 
 schedule.every(5).seconds.do(job_group_3) 
-schedule.every(5).seconds.do(job_group_4) 
-schedule.every(5).seconds.do(job_group_5) 
+# schedule.every(5).seconds.do(job_group_4) 
+# schedule.every(5).seconds.do(job_group_5) 
 
 
 
