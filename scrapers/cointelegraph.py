@@ -65,12 +65,12 @@ def scrape_news_topic_7():
             "description": "description",
             "tag": "crypto_tag",
             "source": "CoinTelegraph",
-            "link": "article_url",
-            'summary': 'i have dieria',
-             'url' :"article_url",
+            "link": article_url,
+            'summary': 'i have diheria',
+             'url' :article_url,
        
         }]
-        print(news)
+        print(article_url)
 
         return news
 
