@@ -129,107 +129,110 @@ def format_message(news_item):
 # Send messages to specified group
 def post_news_to_group(group_key, news_items , source):
 
+    try:
     
-    new_news =True
-    
-    group = GROUPS[group_key]
-    group_id = group['id']
-    topic_id = group.get('topic_id')  # Retrieve the topic ID if present
-    channel_id = group.get('channel_id')  # Retrieve the channel ID if present
-
-    for news_item in news_items:
-        # Format the message and get the URL separately
-        formatted_message, url = format_message(news_item)
-
-        if (source == 'forexlive'):
-
-            print(forex_live_latest_news[-1])
-            print(forex_live_latest_news[0])
-
-
-            forex_live_latest_news.append(url)
-            if (forex_live_latest_news[-1] == forex_live_latest_news[0]):
-                new_news = False
-            
-            forex_live_latest_news.pop(0)
-            print(new_news)
-
-
-
-        if (source == 'dayliforex'):
-
-            print(datilforex_latest_news[-1])
-            print(datilforex_latest_news[0])
-
-
-            datilforex_latest_news.append(url)
-            if (datilforex_latest_news[-1] == datilforex_latest_news[0]):
-                new_news = False
-            
-            datilforex_latest_news.pop(0)
-            print(new_news)
-
-
-        if (source == 'myfxbook'):
-
-            print(myfxbook_latest_news[-1])
-            print(myfxbook_latest_news[0])
-
-
-            myfxbook_latest_news.append(url)
-            if (myfxbook_latest_news[-1] == myfxbook_latest_news[0]):
-                new_news = False
-            
-            myfxbook_latest_news.pop(0)
-            print(new_news)
-
-
-        if (source == 'coinpotato'):
-
-            print(coinpotato_lastest_news[-1])
-            print(coinpotato_lastest_news[0])
-
-
-            coinpotato_lastest_news.append(url)
-            if (coinpotato_lastest_news[-1] == coinpotato_lastest_news[0]):
-                new_news = False
-            
-            coinpotato_lastest_news.pop(0)
-            print(new_news)
-
-        if (source == 'cointelegraph'):
-
-            print(cointelegraph_lastest_news[-1])
-            print(cointelegraph_lastest_news[0])
-
-
-            cointelegraph_lastest_news.append(url)
-            if (cointelegraph_lastest_news[-1] == cointelegraph_lastest_news[0]):
-                new_news = False
-            
-            cointelegraph_lastest_news.pop(0)
-            print(new_news)        
-
         
-        # Translate the message text (excluding the URL)
-        translated_message = translate_text(formatted_message, "fa")
+        new_news =True
         
-        # Add the URL at the end of the translated message
-        final_message = f"{translated_message}\n\n{url}"
-        
-        print(f"Final Message: {url}")
-        
-        if (new_news) :
+        group = GROUPS[group_key]
+        group_id = group['id']
+        topic_id = group.get('topic_id')  # Retrieve the topic ID if present
+        channel_id = group.get('channel_id')  # Retrieve the channel ID if present
+
+        for news_item in news_items:
+            # Format the message and get the URL separately
+            formatted_message, url = format_message(news_item)
+
+            if (source == 'forexlive'):
+
+                print(forex_live_latest_news[-1])
+                print(forex_live_latest_news[0])
+
+
+                forex_live_latest_news.append(url)
+                if (forex_live_latest_news[-1] == forex_live_latest_news[0]):
+                    new_news = False
+                
+                forex_live_latest_news.pop(0)
+                print(new_news)
+
+
+
+            if (source == 'dayliforex'):
+
+                print(datilforex_latest_news[-1])
+                print(datilforex_latest_news[0])
+
+
+                datilforex_latest_news.append(url)
+                if (datilforex_latest_news[-1] == datilforex_latest_news[0]):
+                    new_news = False
+                
+                datilforex_latest_news.pop(0)
+                print(new_news)
+
+
+            if (source == 'myfxbook'):
+
+                print(myfxbook_latest_news[-1])
+                print(myfxbook_latest_news[0])
+
+
+                myfxbook_latest_news.append(url)
+                if (myfxbook_latest_news[-1] == myfxbook_latest_news[0]):
+                    new_news = False
+                
+                myfxbook_latest_news.pop(0)
+                print(new_news)
+
+
+            if (source == 'coinpotato'):
+
+                print(coinpotato_lastest_news[-1])
+                print(coinpotato_lastest_news[0])
+
+
+                coinpotato_lastest_news.append(url)
+                if (coinpotato_lastest_news[-1] == coinpotato_lastest_news[0]):
+                    new_news = False
+                
+                coinpotato_lastest_news.pop(0)
+                print(new_news)
+
+            if (source == 'cointelegraph'):
+
+                print(cointelegraph_lastest_news[-1])
+                print(cointelegraph_lastest_news[0])
+
+
+                cointelegraph_lastest_news.append(url)
+                if (cointelegraph_lastest_news[-1] == cointelegraph_lastest_news[0]):
+                    new_news = False
+                
+                cointelegraph_lastest_news.pop(0)
+                print(new_news)        
 
             
-            # Determine the target destination
-            if topic_id:
-                bot.send_message(group_id, final_message,parse_mode="HTML", message_thread_id=topic_id)
-            if channel_id:
-                bot.send_message(channel_id, final_message, parse_mode="HTML")
-            # else:
-            #     bot.send_message(group_id, final_message, parse_mode='Markdown')
+            # Translate the message text (excluding the URL)
+            translated_message = translate_text(formatted_message, "fa")
+            
+            # Add the URL at the end of the translated message
+            final_message = f"{translated_message}\n\n{url}"
+            
+            print(f"Final Message: {url}")
+            
+            if (new_news) :
 
+                
+                # Determine the target destination
+                if topic_id:
+                    bot.send_message(group_id, final_message,parse_mode="HTML", message_thread_id=topic_id)
+                if channel_id:
+                    bot.send_message(channel_id, final_message, parse_mode="HTML")
+                # else:
+                #     bot.send_message(group_id, final_message, parse_mode='Markdown')
+    except:
+        print('error')
 
 # Command to get group IDs
 @bot.message_handler(commands=['get_groups'])
