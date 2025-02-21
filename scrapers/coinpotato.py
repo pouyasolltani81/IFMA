@@ -20,8 +20,12 @@ def scrape_news_topic_8():
     url = f"{base_url}/crypto-news"
 
     try:
-        # Fetch the main news page
-        response = requests.get(url, headers=headers)
+
+        session = requests.Session()
+        session.headers.update(headers)
+        response = session.get(url)
+        # # Fetch the main news page
+        # response = requests.get(url, headers=headers)
         response.raise_for_status()
         soup = BeautifulSoup(response.content, 'html.parser')
 
