@@ -43,12 +43,12 @@ def scrape_news_topic_3():
 
     # Prepare the news data
     news = [{
-        "title": 'title',
-        "description": 'description',
+        "title": title,
+        "description": description,
         "link": 'link',
         "tag": 'forex_tag',  # Here you can also parse more specific tags if available
-        "summary": 'summary',
-        "url": 'article_url',
+        "summary": summary,
+        "url": article_url,
         "source": "Daily Forex"
     }]
     print(news)
