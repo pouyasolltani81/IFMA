@@ -114,13 +114,13 @@ def format_message(news_item):
     clean_url = sanitize_url(url)
 
     # Create a clickable link in HTML format
-    formatted_url = f'<a href="{clean_url}">{news_item["source"]}</a>'
+    formatted_url = f'<a href="{clean_url}">{news_item["title"]}</a>'
 
     # Prepare the formatted message
     message = (
-        f"📢 <b>{title}</b>\n\n"
-        f"📝 {description}\n\n"
-        f"🏷️ Tag: {tag}\n\n"
+        # f"📢 <b>{title}</b>\n\n"
+        # f"📝 {description}\n\n"
+        # f"🏷️ Tag: {tag}\n\n"
     )
 
     # Return the message and the formatted link separately
