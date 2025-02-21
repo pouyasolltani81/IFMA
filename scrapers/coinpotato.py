@@ -1,34 +1,61 @@
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
+from itertools import cycle
+import time
+
 
 
 def scrape_news_topic_8():
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
-        "Accept-Language": "en-US,en;q=0.9",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Connection": "keep-alive",
-        "Referer": "https://www.google.com/",
-        "DNT": "1",  # Do Not Track request
-        "Upgrade-Insecure-Requests": "1",
-        "Cache-Control": "max-age=0",
+    # --- Configuration ---
+
+    # Advanced headers mimicking a real browser
+    HEADERS = {
+        'User-Agent': ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+                    'AppleWebKit/537.36 (KHTML, like Gecko) '
+                    'Chrome/115.0.0.0 Safari/537.36'),
+        'Accept': ('text/html,application/xhtml+xml,application/xml;'
+                'q=0.9,image/webp,*/*;q=0.8'),
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Referer': 'https://www.google.com/',
+        'Connection': 'keep-alive'
     }
+
+    # Optional: List of proxy endpoints (format: "http://user:pass@ip:port")
+    PROXIES_LIST = [
+        # Example proxies—replace with your own or leave empty to not use proxies.
+        # "http://username:password@proxy1.example.com:3128",
+        # "http://username:password@proxy2.example.com:3128",
+    ]
+
+    # Create a cycle iterator if proxies are provided
+    proxies_cycle = cycle(PROXIES_LIST) if PROXIES_LIST else None
+
+
+    # Retry configuration
+    MAX_RETRIES = 5
+    DELAY_SECONDS = 2
+
+# URL to fetch
 
     base_url = "https://cryptopotato.com"
     url = f"{base_url}/crypto-news"
 
     try:
 
+        # Optionally update proxies for each request
         session = requests.Session()
-        session.headers.update(headers)
-        response = session.get(url)
+        session.headers.update(HEADERS)
+       
+        response = session.get(url, timeout=10)
+        response.raise_for_status()  # Raise an HTTPError for bad responses (e.g. 40
+        
         print('maaaaaadaaareto :')
         print(response)
         # # Fetch the main news page
         # response = requests.get(url, headers=headers)
-        response.raise_for_status()
+      
         soup = BeautifulSoup(response.content, 'html.parser')
 
         # Find the first news article
