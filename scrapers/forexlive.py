@@ -34,7 +34,7 @@ def scrape_news_topic_1():
         "link": "link",
         "tag": "tag",
         "summary": "summary",
-        'url' :"url + link",
+        'url' :url + link,
         "source": ' Forex live ',
 
         
