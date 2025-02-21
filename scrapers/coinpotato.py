@@ -4,117 +4,125 @@ from urllib.parse import urljoin
 from itertools import cycle
 import time
 
-
-
 def scrape_news_topic_8():
     # --- Configuration ---
 
     # Advanced headers mimicking a real browser
     HEADERS = {
         'User-Agent': ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
-                    'AppleWebKit/537.36 (KHTML, like Gecko) '
-                    'Chrome/115.0.0.0 Safari/537.36'),
+                       'AppleWebKit/537.36 (KHTML, like Gecko) '
+                       'Chrome/115.0.0.0 Safari/537.36'),
         'Accept': ('text/html,application/xhtml+xml,application/xml;'
-                'q=0.9,image/webp,*/*;q=0.8'),
+                   'q=0.9,image/webp,*/*;q=0.8'),
         'Accept-Language': 'en-US,en;q=0.9',
         'Accept-Encoding': 'gzip, deflate, br',
         'Referer': 'https://www.google.com/',
         'Connection': 'keep-alive'
     }
 
-    # Optional: List of proxy endpoints (format: "http://user:pass@ip:port")
+    # Free proxies taken from free-proxy-list.net (example list)
     PROXIES_LIST = [
-        # Example proxies—replace with your own or leave empty to not use proxies.
-        # "http://username:password@proxy1.example.com:3128",
-        # "http://username:password@proxy2.example.com:3128",
+        "http://65.108.159.129:8080",
+        "http://13.36.104.85:80",
+        "http://13.36.87.105:3128",
+        "http://3.126.147.182:80",
+        "http://43.202.154.212:80",
+        "http://35.76.62.196:80"
+        # Add more proxies as needed
     ]
 
-    # Create a cycle iterator if proxies are provided
+    # Create a cycle iterator for the proxy list
     proxies_cycle = cycle(PROXIES_LIST) if PROXIES_LIST else None
 
+    # URL to fetch
+    base_url = "https://cryptopotato.com"
+    url = f"{base_url}/crypto-news"
 
     # Retry configuration
     MAX_RETRIES = 5
     DELAY_SECONDS = 2
 
-# URL to fetch
+    # Create a persistent session with custom headers
+    session = requests.Session()
+    session.headers.update(HEADERS)
 
-    base_url = "https://cryptopotato.com"
-    url = f"{base_url}/crypto-news"
+    page_content = None
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            # If proxies are available, use the next proxy from the cycle
+            if proxies_cycle:
+                current_proxy = next(proxies_cycle)
+                session.proxies.update({
+                    'http': current_proxy,
+                    'https': current_proxy,
+                })
+                print(f"Attempt {attempt}: Using proxy {current_proxy}")
+            else:
+                print(f"Attempt {attempt}: No proxy in use.")
 
+            # Make the GET request with a timeout
+            response = session.get(url, timeout=10)
+            response.raise_for_status()  # Raise HTTPError for bad responses
+            print(f"Success on attempt {attempt}!")
+            page_content = response.text
+            break  # exit the loop if request is successful
+        except requests.exceptions.RequestException as e:
+            print(f"Attempt {attempt} failed with error: {e}")
+            time.sleep(DELAY_SECONDS)
+
+    if page_content is None:
+        print("All attempts failed. Could not fetch the page.")
+        return None
+
+    # Parse the main news page
+    soup = BeautifulSoup(page_content, 'html.parser')
+
+    # Find the first news article
+    first_news = soup.select_one("h3.rpwe-title a")
+    if not first_news:
+        print("No news link found.")
+        return None
+
+    # Extract the link and fix it if relative
+    link = first_news['href']
+    article_url = link if link.startswith("http") else urljoin(base_url, link)
+
+    # Fetch the specific news article page
     try:
-
-        # Optionally update proxies for each request
-        session = requests.Session()
-        session.headers.update(HEADERS)
-       
-        response = session.get(url, timeout=10)
-        response.raise_for_status()  # Raise an HTTPError for bad responses (e.g. 40
-        
-        print('maaaaaadaaareto :')
-        print(response)
-        # # Fetch the main news page
-        # response = requests.get(url, headers=headers)
-      
-        soup = BeautifulSoup(response.content, 'html.parser')
-
-        # Find the first news article
-        first_news = soup.select_one("h3.rpwe-title a")
-        if not first_news:
-            print("No news link found.")
-            return None
-
-        # Extract the link and fix if relative
-        link = first_news['href']
-        article_url = link if link.startswith("http") else urljoin(base_url, link)
-
-        # Fetch the specific news article page
-        news_response = requests.get(article_url, headers=headers)
+        news_response = session.get(article_url, timeout=10)
         news_response.raise_for_status()
-        news_soup = BeautifulSoup(news_response.text, 'html.parser')
-
-        # Extract title
-        title_element = news_soup.select_one("div.page-title h1")
-        title = title_element.text.strip() if title_element else "Title not found"
-
-        # Extract all <p> tags
-        p_tags = news_soup.find_all("p")
-        descriptions = [p.text.strip() for p in p_tags]
-
-        crypto_tag = [
-            "#کریپتو", "#ارز_دیجیتال", "#بیت_کوین", "#اتریوم", "#سرمایه_گذاری",
-            "#رمزارز", "#ترید", "#ماینینگ", "#تحلیل_بازار", "#بلاکچین",
-            "#کریپتوکارنسی", "#ارزهای_دیجیتال", "#بازار_مالی", "#پول_دیجیتال",
-            "#معاملات_ارز_دیجیتال", "#سرمایه_گذاری_آنلاین", "#اخبار_جهانی", "#سرمایه_گذاری_آنلاین"
-        ]
-
-        # Prepare the news object
-        news = [{
-            "title": title,
-            "description": descriptions,
-            "tag": 'crypto_tag',
-            "source": "CryptoPotato",
-            "link": article_url
-        }]
-
-        # # Print the news
-        # for article in news:
-        #     print(f"Title: {article['title']}")
-        #     print(f"Descriptions: {', '.join(article['description'])}")
-        #     print(f"Source: {article['source']}")
-        #     print(f"Tags: {', '.join(article['tag'])}")
-        #     print(f"Link: {article['link']}")
-
-        print(news)
-
-        return news
-
     except requests.exceptions.RequestException as e:
-        print(f"HTTP request error: {e}")
+        print(f"Failed to fetch news article page: {e}")
         return None
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return None
+
+    news_soup = BeautifulSoup(news_response.text, 'html.parser')
+
+    # Extract title
+    title_element = news_soup.select_one("div.page-title h1")
+    title = title_element.text.strip() if title_element else "Title not found"
+
+    # Extract all <p> tags as descriptions
+    p_tags = news_soup.find_all("p")
+    descriptions = [p.text.strip() for p in p_tags]
+
+    crypto_tag = [
+        "#کریپتو", "#ارز_دیجیتال", "#بیت_کوین", "#اتریوم", "#سرمایه_گذاری",
+        "#رمزارز", "#ترید", "#ماینینگ", "#تحلیل_بازار", "#بلاکچین",
+        "#کریپتوکارنسی", "#ارزهای_دیجیتال", "#بازار_مالی", "#پول_دیجیتال",
+        "#معاملات_ارز_دیجیتال", "#سرمایه_گذاری_آنلاین", "#اخبار_جهانی", "#سرمایه_گذاری_آنلاین"
+    ]
+
+    # Prepare the news object
+    news = [{
+        "title": title,
+        "description": descriptions,
+        "tag": 'crypto_tag',
+        "source": "CryptoPotato",
+        "link": article_url
+    }]
+
+    print(news)
+    return news
 
 # Example usage
 if __name__ == "__main__":
