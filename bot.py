@@ -109,14 +109,17 @@ def format_message(news_item):
 
     # Create a clickable Telegram link with custom text
 
-    def escape_markdown(text):
+        
+    def escape_markdown_v2(text):
         """Escape special characters in Telegram MarkdownV2"""
-        escape_chars = r'_*[]()~`>#+-=|{}.!'
-        return ''.join(f'\\{char}' if char in escape_chars else char for char in text)
+        escape_chars = r'_\*\[\]\(\)~`>#+\-=|{}.!'
+        return re.sub(r'([{}])'.format(re.escape(escape_chars)), r'\\\1', text)
 
     # لینک را پاکسازی کنید
     def sanitize_url(url):
         return re.sub(r'\s+', '', url)  # حذف فاصله‌های اضافی
+
+    
     
     
     clean_url = sanitize_url(url)
