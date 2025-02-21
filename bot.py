@@ -3,6 +3,7 @@ import schedule
 import time
 import requests
 from googletrans import Translator
+import re
 from scrapers.forexlive import scrape_news_topic_1
 from scrapers.myfxbook import scrape_news_topic_2
 from scrapers.datliforex import scrape_news_topic_3
@@ -107,7 +108,22 @@ def format_message(news_item):
     url = news_item['url']
 
     # Create a clickable Telegram link with custom text
-    formatted_url = f"[{news_item['source']}]({url})"  # Custom text for the link
+
+    def escape_markdown(text):
+        """Escape special characters in Telegram MarkdownV2"""
+        escape_chars = r'_*[]()~`>#+-=|{}.!'
+        return ''.join(f'\\{char}' if char in escape_chars else char for char in text)
+
+    # لینک را پاکسازی کنید
+    def sanitize_url(url):
+        return re.sub(r'\s+', '', url)  # حذف فاصله‌های اضافی
+    
+    
+    clean_url = sanitize_url(url)
+    
+
+    
+    formatted_url = f"[{news_item['source']}]({clean_url})"  # Custom text for the link
 
     # Prepare the formatted message without the URL
     message = (
@@ -118,7 +134,7 @@ def format_message(news_item):
     )
 
     # Return both the text (for translation) and the URL separately
-    return message, formatted_url
+    return message, escape_markdown(formatted_url)
 
 # Send messages to specified group
 def post_news_to_group(group_key, news_items , source):

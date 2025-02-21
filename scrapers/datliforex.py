@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
-import re
 
 def scrape_news_topic_3():
     headers = {
@@ -42,16 +41,7 @@ def scrape_news_topic_3():
     # Create a summary (if required, this can be more dynamic)
     summary = "Ahhhhhhhh....."
 
-
-    def sanitize_url(url):
-        """Sanitizes a URL by replacing unsafe characters with safe ones."""
-        safe_url = re.sub(r'[^a-zA-Z0-9:/._-]', '-', url)
-        return safe_url
-
-    # Example usage
-    url = "https://www.dailyforex.com/forex-technical-analysis/2025/02/gbpjpy-forecast-21-february-2025/224678"
-    safe_url = sanitize_url(url)
-    print(safe_url)
+    
 
     # Prepare the news data
     news = [{
@@ -60,7 +50,7 @@ def scrape_news_topic_3():
         "link": 'link',
         "tag": 'forex_tag',  # Here you can also parse more specific tags if available
         "summary": summary,
-        "url": safe_url,
+        "url": article_url,
         "source": "Daily Forex"
     }]
     print(news)
