@@ -137,7 +137,7 @@ def format_message(news_item):
     )
 
     # Return both the text (for translation) and the URL separately
-    return message, escape_markdown(formatted_url)
+    return message, escape_markdown_v2(formatted_url)
 
 # Send messages to specified group
 def post_news_to_group(group_key, news_items , source):
