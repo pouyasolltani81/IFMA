@@ -6,10 +6,13 @@ import time
 
 def get_free_proxies():
     """
-    Fetches free proxies from free-proxy-list.net and returns a list
-    of proxies in the format "http://ip:port" that are elite and support HTTPS.
+    Fetch free proxies from free-proxy-list.net and sslproxies.org.
+    Returns a list of proxies in the format "http://ip:port" that are elite and support HTTPS.
     """
-    proxy_url = "https://free-proxy-list.net/"
+    proxy_sources = [
+        "https://free-proxy-list.net/",
+        "https://www.sslproxies.org/"
+    ]
     HEADERS = {
         'User-Agent': ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
                        'AppleWebKit/537.36 (KHTML, like Gecko) '
@@ -17,28 +20,31 @@ def get_free_proxies():
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
         'Accept-Language': 'en-US,en;q=0.9'
     }
-    try:
-        response = requests.get(proxy_url, headers=HEADERS, timeout=10)
-        response.raise_for_status()
-    except Exception as e:
-        print("Error fetching proxies:", e)
-        return []
-
-    soup = BeautifulSoup(response.text, 'html.parser')
-    proxy_table = soup.find("table", id="proxylisttable")
     proxies = []
-
-    # Check if the table and its body exist
-    if proxy_table and proxy_table.tbody:
-        for row in proxy_table.tbody.find_all("tr"):
-            cols = row.find_all("td")
-            ip = cols[0].text.strip()
-            port = cols[1].text.strip()
-            anonymity = cols[4].text.strip()  # e.g., "elite proxy"
-            https_support = cols[6].text.strip()  # "yes" or "no"
-            # Use only elite proxies that support HTTPS
-            if anonymity.lower() == "elite proxy" and https_support.lower() == "yes":
-                proxies.append(f"http://{ip}:{port}")
+    for source in proxy_sources:
+        try:
+            print(f"Fetching proxies from {source}")
+            response = requests.get(source, headers=HEADERS, timeout=10)
+            response.raise_for_status()
+            soup = BeautifulSoup(response.text, 'html.parser')
+            proxy_table = soup.find("table", id="proxylisttable")
+            if proxy_table and proxy_table.tbody:
+                for row in proxy_table.tbody.find_all("tr"):
+                    cols = row.find_all("td")
+                    if len(cols) >= 7:
+                        ip = cols[0].text.strip()
+                        port = cols[1].text.strip()
+                        anonymity = cols[4].text.strip()  # e.g., "elite proxy"
+                        https_support = cols[6].text.strip()  # "yes" or "no"
+                        if anonymity.lower() == "elite proxy" and https_support.lower() == "yes":
+                            proxies.append(f"http://{ip}:{port}")
+            if proxies:
+                print(f"Found {len(proxies)} proxies from {source}")
+                return proxies
+            else:
+                print(f"No proxies found at {source}")
+        except Exception as e:
+            print(f"Error fetching proxies from {source}: {e}")
     return proxies
 
 def scrape_news_topic_8():
@@ -55,7 +61,7 @@ def scrape_news_topic_8():
         'Connection': 'keep-alive'
     }
 
-    # Automatically fetch the latest free proxies
+    # Automatically fetch the latest free elite HTTPS proxies
     proxies_list = get_free_proxies()
     if not proxies_list:
         print("No proxies fetched. Exiting.")
