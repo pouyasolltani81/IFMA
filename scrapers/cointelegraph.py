@@ -62,12 +62,12 @@ def scrape_news_topic_7():
         # Prepare the news object
         news = [{
             "title": title,
-            "description": "description",
+            "description": description,
             "tag": "crypto_tag",
             "source": "CoinTelegraph",
-            "link": "article_url",
+            "link": article_url,
             'summary': 'i have Diarrhea',
-             'url' :"article_url",
+             'url' :article_url,
        
         }]
         print(news)
