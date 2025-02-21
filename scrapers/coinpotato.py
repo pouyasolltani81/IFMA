@@ -5,8 +5,17 @@ from urllib.parse import urljoin
 
 def scrape_news_topic_8():
     headers = {
-        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+        "Referer": "https://www.google.com/",
+        "DNT": "1",  # Do Not Track request
+        "Upgrade-Insecure-Requests": "1",
+        "Cache-Control": "max-age=0",
     }
+
     base_url = "https://cryptopotato.com"
     url = f"{base_url}/crypto-news"
 
