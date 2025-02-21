@@ -121,10 +121,12 @@ def format_message(news_item):
         # f"📢 <b>{title}</b>\n\n"
         # f"📝 {description}\n\n"
         # f"🏷️ Tag: {tag}\n\n"
+        f"📢 <b>{title}</b>\n\n"
+
     )
 
     # Return the message and the formatted link separately
-    return message, formatted_url
+    return message, clean_url
 
 # Send messages to specified group
 def post_news_to_group(group_key, news_items , source):
@@ -217,7 +219,11 @@ def post_news_to_group(group_key, news_items , source):
             translated_message = translate_text(formatted_message, "fa")
             
             # Add the URL at the end of the translated message
-            final_message = f"{translated_message}\n\n{url}"
+            url = f'<a href="{url}">{translated_message}</a>'
+
+            # final_message = f"{translated_message}\n\n{url}"
+            final_message = f"{url}"
+
             
             print(f"Final Message: {url}")
             
