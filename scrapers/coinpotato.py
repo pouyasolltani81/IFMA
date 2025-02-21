@@ -24,6 +24,8 @@ def scrape_news_topic_8():
         session = requests.Session()
         session.headers.update(headers)
         response = session.get(url)
+        print('maaaaaadaaareto :')
+        print(response)
         # # Fetch the main news page
         # response = requests.get(url, headers=headers)
         response.raise_for_status()
