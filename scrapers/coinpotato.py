@@ -118,7 +118,7 @@ def scrape_news_topic_8():
         "description": descriptions,
         "tag": 'crypto_tag',
         "source": "CryptoPotato",
-        "link": article_url
+        "link": "article_url"
     }]
 
     print(news)
