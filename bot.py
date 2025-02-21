@@ -99,7 +99,7 @@ def translate_text(text, target_language):
 
 
 # Function to format messages
-# Function to format messages without translating the URL
+# Function to format messages with HTML parsing
 def format_message(news_item):
     title = news_item['title']
     description = news_item['description']
@@ -107,37 +107,24 @@ def format_message(news_item):
     summary = news_item['summary']
     url = news_item['url']
 
-    # Create a clickable Telegram link with custom text
-
-        
-    def escape_markdown_v2(text):
-        """Escape special characters in Telegram MarkdownV2"""
-        escape_chars = r'_\*\[\]\(\)~`>#+\-=|{}.!'
-        return re.sub(r'([{}])'.format(re.escape(escape_chars)), r'\\\1', text)
-
-    # لینک را پاکسازی کنید
+    # Function to sanitize the URL
     def sanitize_url(url):
-        return re.sub(r'\s+', '', url)  # حذف فاصله‌های اضافی
+        return re.sub(r'\s+', '', url)  # Remove extra spaces
 
-    
-    
-    
     clean_url = sanitize_url(url)
-    
 
-    
-    formatted_url = f"[{news_item['source']}]({clean_url})"  # Custom text for the link
+    # Create a clickable link in HTML format
+    formatted_url = f'<a href="{clean_url}">{news_item["source"]}</a>'
 
-    # Prepare the formatted message without the URL
+    # Prepare the formatted message
     message = (
-        f"📢 *{title}*\n\n"
+        f"📢 <b>{title}</b>\n\n"
         f"📝 {description}\n\n"
         f"🏷️ Tag: {tag}\n\n"
-        # f"🔍 Summary: {summary}\n\n"
     )
 
-    # Return both the text (for translation) and the URL separately
-    return message, escape_markdown_v2(formatted_url)
+    # Return the message and the formatted link separately
+    return message, formatted_url
 
 # Send messages to specified group
 def post_news_to_group(group_key, news_items , source):
@@ -237,9 +224,9 @@ def post_news_to_group(group_key, news_items , source):
             
             # Determine the target destination
             if topic_id:
-                bot.send_message(group_id, final_message, parse_mode='Markdown', message_thread_id=topic_id)
+                bot.send_message(group_id, final_message,parse_mode="HTML", message_thread_id=topic_id)
             if channel_id:
-                bot.send_message(channel_id, final_message, parse_mode='Markdown')
+                bot.send_message(channel_id, final_message, parse_mode="HTML")
             # else:
             #     bot.send_message(group_id, final_message, parse_mode='Markdown')
 
